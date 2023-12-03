@@ -3,11 +3,14 @@ package day03
 import (
     "fmt"
     "strconv"
+    "regexp"
     "adventofcode/utils"
 )
 
 const (
-    SEPARATOR = "."
+    SEPARATOR = '.'
+    GEAR = '*'
+    SYMBOL_REGEX = `[^A-Za-z0-9.]`
 )
 
 type FoundNumber struct {
@@ -15,31 +18,103 @@ type FoundNumber struct {
 	IndexesToJump int
 }
 
-func getValue(arr *[]string, index int) FoundNumber {
-    i := index
-    digits := (*arr)[i]
-	offset := 1
-    for (*arr)[i] == SEPARATOR {
-        i--
-        digits = (*arr)[i] + digits
-    }
+type Vector struct {
+    x int
+    y int
+}
 
-	i = index
+func getValue(line string, index int) (int, int) {
+    digits := string(line[index])
+    i := index+1
+	numDigits := 1
 
-	for (*arr)[i] == SEPARATOR {
-		i++
-		offset++
-		digits += (*arr)[i]
+	for i < len(line) && IsDigit(line[i]) {
+		digits += string(line[i])
+        i++
+		numDigits++
 	}
 
 	number, _ := strconv.Atoi(digits)
 
-	return FoundNumber{Number: number, IndexesToJump: offset}
+	return number, numDigits
+}
+
+func ValueTouchesSymbol(valueArea []string) bool {
+    re := regexp.MustCompile(SYMBOL_REGEX)
+    
+    for _, s := range valueArea {
+        if re.MatchString(s) {
+            return true
+        }
+    }
+
+    return false
+}
+
+func IsDigit(c byte) bool {
+	return c >= '0' && c <= '9'
+}
+
+func ExpandArea(topLeft Vector, bottomRight Vector, maxTopLeft Vector, maxBottomRight Vector, extend int) (Vector, Vector) {
+    newTopLeft := Vector{ x: utils.IntMax(maxTopLeft.x, topLeft.x - extend), y: utils.IntMax(maxTopLeft.y, topLeft.y - extend)}
+    newBottomRight := Vector{ x: utils.IntMin(maxBottomRight.x, bottomRight.x + extend + 1), y: utils.IntMin(maxBottomRight.y, bottomRight.y + extend + 1)}
+
+    return newTopLeft, newBottomRight
+}
+
+func getValueArea(arr *[]string, x int, y int, width int, maxTopLeft Vector, maxBottomRight Vector, extend int) []string {
+    newTopLeft, newBottomRight := ExpandArea(Vector{x: x, y: y}, Vector{x: x + width, y: y}, maxTopLeft, maxBottomRight, extend)
+
+    valueArea := make([]string, newBottomRight.y-newTopLeft.y)
+    copy(valueArea, (*arr)[newTopLeft.y:newBottomRight.y])
+
+    for i, row := range valueArea {
+        valueArea[i] = row[newTopLeft.x:newBottomRight.x]
+    }
+
+    return valueArea
 }
 
 func Problem01(lines []string) int {
-    return 0
+    sum := 0
+    lineLength := len(lines[0])
+    maxTopLeft := Vector{x: 0, y: 0}
+    maxBottomRight := Vector{x: len(lines[0]), y: len(lines)}
+
+    for y, line := range lines {
+        for x := 0; x <len(line); x++ {
+            if IsDigit(line[x]) {
+                val, numDigits := getValue(line, x)
+                valueArea := getValueArea(&lines, x, y, numDigits-1, maxTopLeft, maxBottomRight, 1)
+
+                if ValueTouchesSymbol(valueArea) {
+                    sum += val
+                }
+
+                x += utils.IntMin(numDigits, lineLength)
+            }
+        }
+    }
+
+    return sum
 }
+
+// func Prolem02(lines []string) int {
+//     maxTopLeft := Vector{x: 0, y: 0}
+//     maxBottomRight := Vector{x: len(lines[0]), y: len(lines)}
+
+//     for y, line := range lines {
+//         for x := 0; x <len(line); x++ {
+//             if line[x] == GEAR {
+//                 valueArea := getValueArea(&lines, Vector{x: x, y: y}, Vector{x: x, y: y}, maxTopLeft, maxBottomRight, 1)
+
+//                 for i, row := range valueArea {
+//                     valueArea[i] = row[newTopLeft.x:newBottomRight.x]
+//                 }
+//             }
+//         }
+//     }
+// }
 
 func Run() {
     lines, _ := utils.ReadInputFile(utils.GetInputFilePath(3))
