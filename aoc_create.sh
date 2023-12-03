@@ -43,7 +43,7 @@ import (
 )
 
 func TestDay$(printf "%02d" $DAY_NUM)(t *testing.T) {
-    assert.True(t, true) // Replace with actual tests
+    assert.True(t, true)
 }" > $TEST_FILE
 
     # Create or overwrite benchmark_test.go
