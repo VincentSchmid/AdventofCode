@@ -14,7 +14,9 @@ func BenchmarkProblem1Day03(b *testing.B) {
 }
 
 func BenchmarkProblem2Day03(b *testing.B) {
+	lines, _ := utils.ReadInputFile("input.txt")
+
 	for i := 0; i < b.N; i++ {
-		// Benchmark code for Problem 2
+		Problem02(lines)
 	}
 }

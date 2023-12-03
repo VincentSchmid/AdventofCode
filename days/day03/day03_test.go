@@ -2,6 +2,7 @@ package day03
 
 import (
 	"fmt"
+	"regexp"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -55,6 +56,25 @@ func TestExpandArea(t *testing.T) {
 	assert.Equal(t, Vector{x: 3, y: 3}, newBottomRight)
 }
 
+func TestRegexp(t *testing.T) {
+	re := regexp.MustCompile(`[0-9]+`)
+
+	line := "3*3"
+
+	result := re.FindAllStringIndex(line, -1)
+	fmt.Println(result)
+
+	line = "1.1"
+
+	result = re.FindAllStringIndex(line, -1)
+	fmt.Println(result)
+
+	line = "12."
+
+	result = re.FindAllStringIndex(line, -1)
+	fmt.Println(result)
+}
+
 func TestBugP1(t *testing.T) {
 	lines := []string{
 		"..515",
@@ -104,5 +124,5 @@ func TestSmallInputP2(t *testing.T) {
 	}
 
 	result := Problem02(lines)
-	fmt.Println(result)
+	assert.Equal(t, 467835, result)
 }

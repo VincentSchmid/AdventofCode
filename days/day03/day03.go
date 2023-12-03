@@ -110,12 +110,29 @@ func Problem02(lines []string) int {
 	sum := 0
 	maxTopLeft := Vector{x: 0, y: 0}
 	maxBottomRight := Vector{x: len(lines[0]), y: len(lines)}
+	re := regexp.MustCompile(`[0-9]+`)
 
 	for y, line := range lines {
 		for x := 0; x < len(line); x++ {
 			if line[x] == GEAR {
-				valueArea := getValueArea(&lines, x, y, 0, maxTopLeft, maxBottomRight, 1)
-				fmt.Println(valueArea)
+				newTopLeft, newBottomRight := ExpandArea(Vector{x: x, y: y}, Vector{x: x, y: y}, maxTopLeft, maxBottomRight, 1)
+
+				valueArea := make([]string, newBottomRight.y-newTopLeft.y)
+				copy(valueArea, lines[newTopLeft.y:newBottomRight.y])
+
+				vals := make([]int, 0)
+				for yn, row := range valueArea {
+					results := re.FindAllStringIndex(row[newTopLeft.x:newBottomRight.x], -1)
+
+					for _, match := range results {
+						val, _ := getValue(valueArea[yn], x+match[0]-1)
+						vals = append(vals, val)
+					}
+				}
+
+				if len(vals) > 1 {
+					sum += vals[0] * vals[1]
+				}
 			}
 		}
 	}
@@ -126,4 +143,5 @@ func Problem02(lines []string) int {
 func Run() {
 	lines, _ := utils.ReadInputFile(utils.GetInputFilePath(3))
 	fmt.Println(Problem01(lines))
+	fmt.Println(Problem02(lines))
 }
