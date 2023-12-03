@@ -2,6 +2,7 @@ package day03
 
 import (
     "fmt"
+    "strconv"
     "adventofcode/utils"
 )
 
