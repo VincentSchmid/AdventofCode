@@ -1,11 +1,11 @@
 package day02
 
 import (
+	"adventofcode/utils"
 	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
-    "adventofcode/utils"
 )
 
 type Color string
@@ -31,27 +31,11 @@ var (
 	cubesInGame = GameCubes{Red: 12, Green: 13, Blue: 14}
 )
 
-func getMaxValue(arr []int) int {
-    if len(arr) == 0 {
-        return 0
-    }
-
-    max := arr[0]
-
-    for _, num := range arr {
-        if num > max {
-            max = num
-        }
-    }
-
-    return max
-}
-
 func max(a, b int) int {
-    if a > b {
-        return a
-    }
-    return b
+	if a > b {
+		return a
+	}
+	return b
 }
 
 func GameFromLine(line string) Game {
@@ -92,16 +76,16 @@ func isGameValid(game Game) bool {
 }
 
 func cubePower(game Game) int {
-    maxRed := 0
-    maxGreen := 0
-    maxBlue := 0
-    for _, showing := range game.showings {
-        maxRed = max(maxRed, showing[Red])
-        maxGreen = max(maxGreen, showing[Green])
-        maxBlue = max(maxBlue, showing[Blue])
-    }
+	maxRed := 0
+	maxGreen := 0
+	maxBlue := 0
+	for _, showing := range game.showings {
+		maxRed = max(maxRed, showing[Red])
+		maxGreen = max(maxGreen, showing[Green])
+		maxBlue = max(maxBlue, showing[Blue])
+	}
 
-    return maxRed * maxGreen * maxBlue
+	return maxRed * maxGreen * maxBlue
 }
 
 func Run() {
@@ -114,7 +98,7 @@ func Run() {
 		games = append(games, GameFromLine(line))
 	}
 
-    // Problem 1
+	// Problem 1
 	sum := 0
 
 	for _, game := range games {
@@ -125,8 +109,8 @@ func Run() {
 
 	fmt.Println(sum)
 
-    // Problem 2
-    sum = 0
+	// Problem 2
+	sum = 0
 
 	for _, game := range games {
 		sum += cubePower(game)

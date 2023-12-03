@@ -2,12 +2,12 @@ package utils
 
 import (
 	"bufio"
-	"os"
 	"fmt"
+	"os"
 )
 
 func GetInputFilePath(day int) string {
-    return fmt.Sprintf("days/day%02d/input.txt", day)
+	return fmt.Sprintf("days/day%02d/input.txt", day)
 }
 
 func ReadInputFile(path string) ([]string, error) {
@@ -29,4 +29,3 @@ func ReadInputFile(path string) ([]string, error) {
 
 	return lines, nil
 }
-

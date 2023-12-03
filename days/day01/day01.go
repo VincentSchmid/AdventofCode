@@ -1,11 +1,11 @@
 package day01
 
 import (
+	"adventofcode/utils"
 	"fmt"
 	"regexp"
 	"strconv"
 	"unicode"
-    "adventofcode/utils"
 )
 
 var (

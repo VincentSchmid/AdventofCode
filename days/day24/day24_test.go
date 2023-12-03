@@ -1,10 +1,10 @@
 package day24
 
 import (
-    "testing"
-    "github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestDay24(t *testing.T) {
-    assert.True(t, true) // Replace with actual tests
+	assert.True(t, true) // Replace with actual tests
 }

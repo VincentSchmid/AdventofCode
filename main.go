@@ -1,13 +1,13 @@
 package main
 
 import (
-    "flag"
-    "adventofcode/days"
+	"adventofcode/days"
+	"flag"
 )
 
 func main() {
-    day := flag.Int("day", 3, "the day to run")
-    flag.Parse()
+	day := flag.Int("day", 3, "the day to run")
+	flag.Parse()
 
-    days.RunDay(*day)
+	days.RunDay(*day)
 }

@@ -1,20 +1,20 @@
 package day23
 
 import (
-    "fmt"
-    "adventofcode/utils"
+	"adventofcode/utils"
+	"fmt"
 )
 
 func Problem01(lines []string) int {
-    return 0
+	return 0
 }
 
 func Problem02(lines []string) int {
-    return 0
+	return 0
 }
 
 func Run() {
-    lines, _ := utils.ReadInputFile(utils.GetInputFilePath(23))
-    fmt.Println(Problem01(lines))
-    fmt.Println(Problem02(lines))
+	lines, _ := utils.ReadInputFile(utils.GetInputFilePath(23))
+	fmt.Println(Problem01(lines))
+	fmt.Println(Problem02(lines))
 }
