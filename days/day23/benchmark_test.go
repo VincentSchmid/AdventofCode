@@ -6,7 +6,7 @@ import (
 )
 
 func BenchmarkProblem1Day23(b *testing.B) {
-	lines, _ := utils.ReadInputFile(utils.GetInputFilePath(23))
+	lines, _ := utils.ReadInputFile("input.txt")
 
 	for i := 0; i < b.N; i++ {
 		Problem01(lines)
@@ -14,7 +14,7 @@ func BenchmarkProblem1Day23(b *testing.B) {
 }
 
 func BenchmarkProblem2Day23(b *testing.B) {
-	lines, _ := utils.ReadInputFile(utils.GetInputFilePath(23))
+	lines, _ := utils.ReadInputFile("input.txt")
 	for i := 0; i < b.N; i++ {
 		Problem02(lines)
 	}
