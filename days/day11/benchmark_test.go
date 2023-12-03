@@ -1,15 +1,21 @@
 package day11
 
-import "testing"
+import (
+    "testing"
+    "adventofcode/utils"
+)
 
 func BenchmarkProblem1Day11(b *testing.B) {
+    lines, _ := utils.ReadInputFile(utils.GetInputFilePath(11))
+
     for i := 0; i < b.N; i++ {
-        // Benchmark code for Problem 1
+        Problem01(lines)
     }
 }
 
 func BenchmarkProblem2Day11(b *testing.B) {
+    lines, _ := utils.ReadInputFile(utils.GetInputFilePath(11))
     for i := 0; i < b.N; i++ {
-        // Benchmark code for Problem 2
+        Problem02(lines)
     }
 }
