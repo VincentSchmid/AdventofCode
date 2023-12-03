@@ -1,27 +1,30 @@
-// Code found here: https://github.com/nlowe/aoc2020/blob/master/util/math.go
 package utils
 
 import (
 	"fmt"
+
+	"golang.org/x/exp/constraints"
 )
 
-func IntAbs(n int) int {
-	if n < 0 {
-		return -1 * n
-	}
+type Numeric interface {
+	constraints.Signed | constraints.Float
+}
 
+func Abs[T Numeric](n T) T {
+	if n < 0 {
+		return -n
+	}
 	return n
 }
 
-func IntMax(a, b int) int {
+func Max[T Numeric](a, b T) T {
 	if a > b {
 		return a
 	}
-
 	return b
 }
 
-func IntMin(a, b int) int {
+func Min[T Numeric](a, b T) T {
 	if a < b {
 		return a
 	}
@@ -29,14 +32,14 @@ func IntMin(a, b int) int {
 	return b
 }
 
-func IntClamp(low, n, high int) int {
+func Clamp[T Numeric](low, n, high T) T {
 	if low > high {
-		panic(fmt.Errorf("IntClamp: low cannot be > high: %d > %d", low, high))
+		panic(fmt.Errorf("IntClamp: low cannot be > high: %v > %v", low, high))
 	}
 
-	return IntMax(IntMin(n, high), low)
+	return Max(Min(n, high), low)
 }
 
-func ManhattanDistance(x1, y1, x2, y2 int) int {
-	return IntAbs(x2-x1) + IntAbs(y2-y1)
+func ManhattanDistance[T Numeric](x1, y1, x2, y2 T) T {
+	return Abs(x2-x1) + Abs(y2-y1)
 }

@@ -31,13 +31,6 @@ var (
 	cubesInGame = GameCubes{Red: 12, Green: 13, Blue: 14}
 )
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func GameFromLine(line string) Game {
 	reId := regexp.MustCompile(`Game (\d+):`)
 	reShowing := regexp.MustCompile(`(\d+)\s+(\w+)`)
@@ -80,9 +73,9 @@ func cubePower(game Game) int {
 	maxGreen := 0
 	maxBlue := 0
 	for _, showing := range game.showings {
-		maxRed = max(maxRed, showing[Red])
-		maxGreen = max(maxGreen, showing[Green])
-		maxBlue = max(maxBlue, showing[Blue])
+		maxRed = utils.Max(maxRed, showing[Red])
+		maxGreen = utils.Max(maxGreen, showing[Green])
+		maxBlue = utils.Max(maxBlue, showing[Blue])
 	}
 
 	return maxRed * maxGreen * maxBlue

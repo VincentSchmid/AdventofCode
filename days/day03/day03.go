@@ -11,7 +11,7 @@ const (
 	SEPARATOR    = '.'
 	GEAR         = '*'
 	SYMBOL_REGEX = `[^A-Za-z0-9.]`
-    NUMBER_REGEX = `[0-9]+`
+	NUMBER_REGEX = `[0-9]+`
 )
 
 type Vector struct {
@@ -59,8 +59,8 @@ func IsDigit(c byte) bool {
 }
 
 func ExpandArea(topLeft Vector, bottomRight Vector, maxTopLeft Vector, maxBottomRight Vector, extend int) (Vector, Vector) {
-	newTopLeft := Vector{x: utils.IntMax(maxTopLeft.x, topLeft.x-extend), y: utils.IntMax(maxTopLeft.y, topLeft.y-extend)}
-	newBottomRight := Vector{x: utils.IntMin(maxBottomRight.x, bottomRight.x+extend+1), y: utils.IntMin(maxBottomRight.y, bottomRight.y+extend+1)}
+	newTopLeft := Vector{x: utils.Max(maxTopLeft.x, topLeft.x-extend), y: utils.Max(maxTopLeft.y, topLeft.y-extend)}
+	newBottomRight := Vector{x: utils.Min(maxBottomRight.x, bottomRight.x+extend+1), y: utils.Min(maxBottomRight.y, bottomRight.y+extend+1)}
 
 	return newTopLeft, newBottomRight
 }
@@ -94,7 +94,7 @@ func Problem01(lines []string) int {
 					sum += val
 				}
 
-				x += utils.IntMin(numDigits, lineLength)
+				x += utils.Min(numDigits, lineLength)
 			}
 		}
 	}
