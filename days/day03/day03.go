@@ -11,12 +11,8 @@ const (
 	SEPARATOR    = '.'
 	GEAR         = '*'
 	SYMBOL_REGEX = `[^A-Za-z0-9.]`
+    NUMBER_REGEX = `[0-9]+`
 )
-
-type FoundNumber struct {
-	Number        int
-	IndexesToJump int
-}
 
 type Vector struct {
 	x int
@@ -110,7 +106,7 @@ func Problem02(lines []string) int {
 	sum := 0
 	maxTopLeft := Vector{x: 0, y: 0}
 	maxBottomRight := Vector{x: len(lines[0]), y: len(lines)}
-	re := regexp.MustCompile(`[0-9]+`)
+	re := regexp.MustCompile(NUMBER_REGEX)
 
 	for y, line := range lines {
 		for x := 0; x < len(line); x++ {
