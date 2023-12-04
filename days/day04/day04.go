@@ -16,8 +16,8 @@ const (
 
 func findMatchingNumbersInArray(arr1 []int, arr2 []int) []int {
 	matches := make([]int, 0)
-	sort.Sort(sort.IntSlice(arr1))
-	sort.Sort(sort.IntSlice(arr2))
+	sort.Ints(arr1)
+	sort.Ints(arr2)
 
 	i, j := 0, 0
 	for i < len(arr1) && j < len(arr2) {
@@ -39,6 +39,7 @@ type ScratchCard struct {
 	id              int
 	winningNumbers  []int
 	selectedNumbers []int
+	matches         []int
 }
 
 func NewScratchCard(scratchCardText string) *ScratchCard {
@@ -50,17 +51,39 @@ func NewScratchCard(scratchCardText string) *ScratchCard {
 
 	winningNumbers := utils.StrArrToIntArr(&winningNumbersText)
 	selectedNumber := utils.StrArrToIntArr(&selectedNumberText)
+	matches := findMatchingNumbersInArray(selectedNumber, winningNumbers)
 
 	return &ScratchCard{
 		id:              id,
 		winningNumbers:  winningNumbers,
 		selectedNumbers: selectedNumber,
+		matches:         matches,
 	}
 }
 
 func (s *ScratchCard) GetPoints() int {
-	matches := findMatchingNumbersInArray(s.selectedNumbers, s.winningNumbers)
-	return int(math.Pow(2, float64(len(matches)-1)))
+	return int(math.Pow(2, float64(len(s.matches)-1)))
+}
+
+func ProcessCards(cards *[]ScratchCard) int {
+	cardCount := make([]int, len(*cards))
+	sum := len(cardCount)
+	for i := len(*cards) - 1; i >= 0; i-- {
+		card := (*cards)[i]
+		cardCount[i] += len(card.matches)
+
+		for j := range card.matches {
+			if i+j+1 < 0 {
+				break
+			}
+
+			cardCount[i] += cardCount[i+j+1]
+		}
+
+		sum += cardCount[i]
+	}
+
+	return sum
 }
 
 func Problem01(lines []string) int {
@@ -74,7 +97,15 @@ func Problem01(lines []string) int {
 }
 
 func Problem02(lines []string) int {
-	return 0
+
+	cards := make([]ScratchCard, len(lines))
+	for i := len(lines) - 1; i >= 0; i-- {
+		cards[i] = *NewScratchCard(lines[i])
+	}
+
+	result := ProcessCards(&cards)
+
+	return result
 }
 
 func Run() {
