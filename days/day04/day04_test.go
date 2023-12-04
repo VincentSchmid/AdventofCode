@@ -1,6 +1,7 @@
 package day04
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -17,5 +18,15 @@ func TestSmallDataSet(t *testing.T) {
 	}
 
 	result := Problem01(lines)
+	fmt.Println(1)
 	assert.Equal(t, 13, result)
+}
+
+func TestFindMatchingNumbersInArray(t *testing.T) {
+	arr1 := []int{1, 2, 4, 5, 6}
+	arr2 := []int{1, 3, 4, 5}
+
+	result := findMatchingNumbersInArray(arr1, arr2)
+
+	assert.Equal(t, []int{1, 4, 5}, result)
 }
