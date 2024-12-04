@@ -5,16 +5,15 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
-	"strings"
 )
 
 func Problem01(lines []string) int {
 	var result int64
-	re, _ := regexp.Compile(`mul\((\d+),(\d+)\)`)
+	re := regexp.MustCompile(`mul\((\d+),(\d+)\)`)
 
 	for _, line := range lines {
 		results := re.FindAllStringSubmatch(line, -1)
-		for _, match := range(results) {
+		for _, match := range results {
 			a, _ := strconv.ParseInt(match[1], 0, 64)
 			b, _ := strconv.ParseInt(match[2], 0, 64)
 
@@ -27,27 +26,25 @@ func Problem01(lines []string) int {
 
 func Problem02(lines []string) int {
 	var result int64
-	doRe, _ := regexp.Compile(`do\(\)|don't\(\)|mul\((\d+),(\d+)\)`)
-	re, _ := regexp.Compile(`mul\((\d+),(\d+)\)`)
-	calculate := true
+	doRe := regexp.MustCompile(`do\(\)|don't\(\)|mul\((\d+),(\d+)\)`)
+	enabled := true
 
 	for _, line := range lines {
-		
-		dos := doRe.FindAllString(line, -1)
 
-		for _, match := range(dos) {
-			if match == "don't()" {
-				calculate = false
+		dos := doRe.FindAllStringSubmatch(line, -1)
+
+		for _, match := range dos {
+			if match[0] == "don't()" {
+				enabled = false
 			}
 
-			if match == "do()" {
-				calculate = true
+			if match[0] == "do()" {
+				enabled = true
 			}
 
-			if calculate && strings.Contains(match, "mul") {
-				match2 := re.FindAllStringSubmatch(match, -1)
-				a, _ := strconv.ParseInt(match2[0][1], 0, 64)
-				b, _ := strconv.ParseInt(match2[0][2], 0, 64)
+			if enabled && len(match) > 1 {
+				a, _ := strconv.ParseInt(match[1], 0, 64)
+				b, _ := strconv.ParseInt(match[2], 0, 64)
 				result += a * b
 			}
 		}
